@@ -1,4 +1,4 @@
-import React, { useState,useReducer } from "react";
+import React, { useState,useReducer, useEffect } from "react";
 import "./../styles/App.css";
 
 
@@ -140,10 +140,85 @@ const states = [{
 
 function App() 
 {
+	const [state,setState]=useState("Madhya Pradesh");
+	const [cityName,setCityName]=useState("Indore");
+	const [landmark,setLandmark]=useState("Mhow");
+	
+
+	useEffect(()=>
+	{
+		console.log(state);
+		console.log(cityName);
+		console.log(landmark);
+	})
 	// Do not alter/remove main div
 	return (
 	<div id="main">
-		
+		<div className="container">
+			<div className="left">
+				<div className="wrapper">
+				<label htmlFor="states">States</label>
+				<select name="" id="state" onChange={(e)=>setState(e.target.value)} className="select">
+					{states.map((e)=>
+					{
+						return <option value={e.name} key={e.name} className="option">{e.name}</option>
+					})}
+				</select>
+				</div>
+				<div className="wrapper">
+				<label htmlFor="city">cities</label>
+				<select name="" id="city" onChange={(e)=>setCityName(e.target.value)} className="select">
+					{
+						states.filter((e)=>e.name===state)[0]?.city.map((data)=>
+						{
+							return <option key={data.name} value={data.name} className="option">{data.name}</option>
+						})
+						
+					
+						
+					}
+				</select>
+				</div>
+				<div className="wrapper">
+				<label htmlFor="landmark">towns</label>	
+				<select name="" id="landmark" onChange={(ev)=>setLandmark(ev.target.value)} className="select">
+				 {
+					states.filter((e1)=>e1.name===state)[0]?.city.filter((e2)=>e2.name===cityName)[0]?.landmarks.map((data)=>
+					{
+						return <option value={data.name} key={data.name} className="option">{data.name}</option>
+					})
+				 }		
+				</select>
+				</div>
+			</div>
+			<div className="right">
+				{
+					
+				states.filter((e1)=>e1.name===state).map((e2)=>
+				{
+					return (
+						<>
+						<div id="state-name" className="box">
+					<div id="state-title" className="title">{e2.name}</div>
+					<div id="state-description" className="desc">{e2.description}</div>
+				 	
+				    </div> 
+						</>
+					)
+				})	
+				}
+				 <div id="city-name" className="box">
+					<div id="city-title" className="title">Lorem ipsum dolor sit amet.</div>
+					<div id="city-description" className="desc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum quasi voluptas eius earum hic rem harum aperiam! Odio, saepe corrupti.</div>
+				 	
+				</div> 
+				 <div id="landmark-name" className="box">
+					<div id="landmark-title" className="title">Lorem ipsum dolor sit amet.</div>
+					<div id="landmark-description" className="desc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum quasi voluptas eius earum hic rem harum aperiam! Odio, saepe corrupti.</div>
+				 	
+				</div> 
+			</div>
+		</div>
 	</div>
 	);
 }
